@@ -154,6 +154,7 @@ activemq-data/
 .envrc
 .venv
 env/
+context.txt
 venv/
 ENV/
 env.bak/
@@ -163,7 +164,7 @@ data/raw
 # Spyder project settings
 .spyderproject
 .spyproject
-
+*.joblib
 # Rope project settings
 .ropeproject
 
