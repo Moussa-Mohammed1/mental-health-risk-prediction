@@ -9,7 +9,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler
+from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler
 
 from .eda import ID_COLUMN, TARGET_COLUMN
 
@@ -23,7 +23,7 @@ class PreprocessingResult:
     y_train: pd.Series
     y_test: pd.Series
     preprocessor: ColumnTransformer
-    target_encoder: LabelEncoder
+    target_encoder: OrdinalEncoder
     numeric_features: list[str]
     categorical_features: list[str]
 
@@ -91,14 +91,17 @@ def preprocess_dataset(
         index=X_test.index,
     )
 
-    target_encoder = LabelEncoder()
+    target_encoder = OrdinalEncoder(
+        handle_unknown="use_encoded_value",
+        unknown_value=-1,
+    )
     y_train = pd.Series(
-        target_encoder.fit_transform(y_train_text),
+        target_encoder.fit_transform(y_train_text.to_numpy().reshape(-1, 1)).ravel(),
         index=y_train_text.index,
         name=target_column,
     )
     y_test = pd.Series(
-        target_encoder.transform(y_test_text),
+        target_encoder.transform(y_test_text.to_numpy().reshape(-1, 1)).ravel(),
         index=y_test_text.index,
         name=target_column,
     )
@@ -126,5 +129,5 @@ def save_preprocessing_result(
     result.y_train.to_csv(output_path / "y_train.csv", index=False)
     result.y_test.to_csv(output_path / "y_test.csv", index=False)
     joblib.dump(result.preprocessor, output_path / "preprocessor.joblib")
-    joblib.dump(result.target_encoder, output_path / "target_label_encoder.joblib")
+    joblib.dump(result.target_encoder, output_path / "target_ordinal_encoder.joblib")
     return output_path
