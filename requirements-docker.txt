@@ -1,0 +1,8 @@
+# Runtime dependencies for the Streamlit application.
+# Training, notebooks, and Airflow dependencies remain in requirements.txt.
+pandas
+joblib
+numpy
+scikit-learn
+xgboost
+streamlit

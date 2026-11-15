@@ -159,6 +159,28 @@ L'application affiche les métriques du modèle optimisé et permet de tester un
 prédiction technique à partir d'un formulaire. Elle ne remplace pas un
 professionnel de santé.
 
+### Exécuter l'application avec Docker
+
+Docker et Docker Compose doivent être installés. Les données et les artefacts
+générés ne sont pas inclus dans l'image : ils sont montés en lecture seule
+depuis `data/`, `models/` et `results/`. Téléchargez le dataset et exécutez le
+pipeline de préparation et d'entraînement avant de démarrer le conteneur :
+
+```bash
+docker compose up --build
+```
+
+L'application est ensuite disponible à
+[`http://localhost:8501`](http://localhost:8501). Pour arrêter le conteneur :
+
+```bash
+docker compose down
+```
+
+L'image utilise uniquement les dépendances nécessaires à Streamlit, listées
+dans `requirements-docker.txt`. Les dépendances complètes pour les notebooks,
+l'entraînement et Airflow restent dans `requirements.txt`.
+
 ## Orchestration Airflow
 
 Le DAG [`mental_health_risk_pipeline`](airflow/dags/mental_health_risk_pipeline.py)

@@ -1,0 +1,23 @@
+.git
+.gitignore
+.venv
+__pycache__
+*.py[codz]
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.ipynb_checkpoints
+*.ipynb
+
+# Runtime data and generated artifacts are mounted by Compose.
+data
+models
+results
+
+airflow
+notebooks
+planification
+scripts
+src
+README.md
+requirements.txt
